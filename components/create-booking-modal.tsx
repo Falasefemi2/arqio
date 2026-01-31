@@ -1,8 +1,8 @@
 "use client";
 
-import React from "react";
-
+import { useCreateBooking } from "@/utils/api/booking/hooks/useBookings";
 import { useState } from "react";
+import { toast } from "sonner";
 import {
   Dialog,
   DialogContent,
@@ -15,7 +15,6 @@ import { Button } from "./ui/button";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
-import { useCreateBooking } from "@/utils/api/booking/hooks/useBookings";
 
 export function CreateBookingModal() {
   const [open, setOpen] = useState(false);
@@ -32,6 +31,12 @@ export function CreateBookingModal() {
       onSuccess: () => {
         setFormData({ email: "", companyName: "", message: "" });
         setOpen(false);
+        toast.success("Booking created successfully!");
+      },
+      onError: (error) => {
+        toast.error("Failed to create booking.", {
+          description: error.message || "Please try again.",
+        });
       },
     });
   };
@@ -44,7 +49,7 @@ export function CreateBookingModal() {
           Create Booking
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[500px]">
+      <DialogContent className="sm:max-w-125">
         <DialogHeader>
           <DialogTitle>Create New Booking</DialogTitle>
           <DialogDescription>

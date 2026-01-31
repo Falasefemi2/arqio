@@ -1,5 +1,6 @@
 "use client";
 
+import { useDashboard } from "@/utils/api/dashboard/hooks/useDashboard";
 import { Calendar, CheckCircle2, Clock, Building2 } from "lucide-react";
 import { Sidebar } from "./sidebar";
 import { StateCard } from "./stat-card";
@@ -7,16 +8,15 @@ import { ChartCard } from "./chart-card";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { HeaderDashboard } from "./header-dashboard";
 
-const chartData = [
-  { month: "Jan", value: 0 },
-  { month: "Feb", value: 0 },
-  { month: "Mar", value: 0 },
-  { month: "Apr", value: 0 },
-  { month: "May", value: 1 },
-  { month: "Jun", value: 2 },
-];
-
 export function AdminDashboard() {
+  const { data: dashboardData, isLoading } = useDashboard();
+
+  const chartData =
+    dashboardData?.bookingTrends?.map((trend) => ({
+      month: trend.month,
+      value: trend.pendingCount + trend.repliedCount,
+    })) ?? [];
+
   return (
     <div className="flex flex-col lg:flex-row min-h-screen bg-slate-50">
       {/* Sidebar */}
@@ -41,28 +41,28 @@ export function AdminDashboard() {
             <StateCard
               icon={<Calendar className="h-5 w-5 text-slate-700" />}
               label="Total Bookings"
-              value="3"
+              value={dashboardData?.totalBookings.toString() ?? "0"}
               badge="+12%"
               badgeColor="success"
             />
             <StateCard
               icon={<CheckCircle2 className="h-5 w-5 text-emerald-600" />}
               label="Replied"
-              value="1"
+              value={dashboardData?.replied.toString() ?? "0"}
               badge="33%"
               badgeColor="success"
             />
             <StateCard
               icon={<Clock className="h-5 w-5 text-orange-600" />}
               label="Pending Replies"
-              value="2"
+              value={dashboardData?.pendingReply.toString() ?? "0"}
               badge="Action needed"
               badgeColor="warning"
             />
             <StateCard
               icon={<Building2 className="h-5 w-5 text-purple-600" />}
               label="Active Services"
-              value="6"
+              value={dashboardData?.activeServices.toString() ?? "0"}
               badge="Live"
               badgeColor="success"
             />

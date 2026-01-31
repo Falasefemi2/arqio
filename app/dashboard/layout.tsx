@@ -14,10 +14,9 @@ export default function DashboardLayout({
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Wait for hydration by checking if localStorage has auth data
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 0); // Or increase to 100ms if needed
+    }, 0);
 
     return () => clearTimeout(timer);
   }, []);
@@ -39,9 +38,7 @@ export default function DashboardLayout({
   return (
     <>
       <HeaderDashboard />
-      <div className="pt-16"> {/* Added padding to account for fixed header */}
-        {children}
-      </div>
+      <div className="lg:pt-10"> {children}</div>
     </>
   );
 }

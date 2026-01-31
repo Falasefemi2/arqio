@@ -1,27 +1,26 @@
 "use client";
 
 import type React from "react";
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { ArrowLeft } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
+import type { Service } from "@/utils/api/services/api/types";
 
-interface Service {
-  id: string;
-  title: string;
-  description: string;
+interface ServiceWithIcon extends Service {
   icon: string;
 }
 
 interface ServiceEditFormProps {
-  service: Service;
+  service: ServiceWithIcon;
   iconOptions: Array<{ value: string; label: string; icon: LucideIcon }>;
   getIconComponent: (iconName: string) => LucideIcon;
-  onSave: (service: Service) => void;
+  onSave: (service: ServiceWithIcon) => void;
   onCancel: () => void;
+  isCreating?: boolean;
+  isLoading?: boolean;
 }
 
 export function ServiceEditForm({
@@ -30,6 +29,8 @@ export function ServiceEditForm({
   getIconComponent,
   onSave,
   onCancel,
+  isCreating = false,
+  isLoading = false,
 }: ServiceEditFormProps) {
   const [formData, setFormData] = useState(service);
 
@@ -51,8 +52,14 @@ export function ServiceEditForm({
           <ArrowLeft size={24} className="text-gray-700" />
         </button>
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Edit Service</h1>
-          <p className="text-gray-600">Update service information</p>
+          <h1 className="text-3xl font-bold text-gray-900">
+            {isCreating ? "Add New Service" : "Edit Service"}
+          </h1>
+          <p className="text-gray-600">
+            {isCreating
+              ? "Create a new service offering"
+              : "Update service information"}
+          </p>
         </div>
       </div>
 
@@ -74,6 +81,7 @@ export function ServiceEditForm({
                       setFormData({ ...formData, title: e.target.value })
                     }
                     className="w-full"
+                    disabled={isLoading}
                   />
                 </div>
 
@@ -87,8 +95,9 @@ export function ServiceEditForm({
                     onChange={(e) =>
                       setFormData({ ...formData, description: e.target.value })
                     }
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 resize-none"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 resize-none disabled:opacity-50"
                     rows={6}
+                    disabled={isLoading}
                   />
                 </div>
 
@@ -102,7 +111,8 @@ export function ServiceEditForm({
                     onChange={(e) =>
                       setFormData({ ...formData, icon: e.target.value })
                     }
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 disabled:opacity-50"
+                    disabled={isLoading}
                   >
                     {iconOptions.map((option) => (
                       <option key={option.value} value={option.value}>
@@ -116,11 +126,21 @@ export function ServiceEditForm({
                 <div className="flex gap-3 pt-4">
                   <Button
                     type="submit"
-                    className="bg-orange-500 hover:bg-orange-600 text-white flex items-center gap-2"
+                    disabled={isLoading}
+                    className="bg-orange-500 hover:bg-orange-600 text-white flex items-center gap-2 disabled:opacity-50"
                   >
-                    Update Service
+                    {isLoading
+                      ? "Saving..."
+                      : isCreating
+                        ? "Add Service"
+                        : "Update Service"}
                   </Button>
-                  <Button type="button" variant="outline" onClick={onCancel}>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={onCancel}
+                    disabled={isLoading}
+                  >
                     Cancel
                   </Button>
                 </div>
@@ -141,9 +161,11 @@ export function ServiceEditForm({
                   </div>
                 </div>
                 <h3 className="text-base font-semibold text-gray-900 mb-2">
-                  {formData.title}
+                  {formData.title || "(No title)"}
                 </h3>
-                <p className="text-sm text-gray-600">{formData.description}</p>
+                <p className="text-sm text-gray-600">
+                  {formData.description || "(No description)"}
+                </p>
               </div>
             </Card>
           </div>

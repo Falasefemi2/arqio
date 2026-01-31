@@ -83,10 +83,11 @@ export function BookingsContent() {
                     Client Information
                   </h2>
                   <span
-                    className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${selectedBookingData.status === "Pending"
-                      ? "bg-orange-100 text-orange-800"
-                      : "bg-green-100 text-green-800"
-                      }`}
+                    className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${
+                      selectedBookingData.status === "Pending"
+                        ? "bg-orange-100 text-orange-800"
+                        : "bg-green-100 text-green-800"
+                    }`}
                   >
                     {selectedBookingData.status}
                   </span>
@@ -214,10 +215,11 @@ export function BookingsContent() {
                   <button
                     key={status}
                     onClick={() => setFilterStatus(status)}
-                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${filterStatus === status
-                      ? "bg-blue-600 text-white"
-                      : "bg-white text-gray-700 border border-gray-200 hover:border-gray-300"
-                      }`}
+                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                      filterStatus === status
+                        ? "bg-blue-600 text-white"
+                        : "bg-white text-gray-700 border border-gray-200 hover:border-gray-300"
+                    }`}
                   >
                     {status}
                   </button>
@@ -264,10 +266,11 @@ export function BookingsContent() {
                       </div>
                       <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
                         <span
-                          className={`px-3 py-1 rounded-full text-sm font-medium text-center ${booking.status === "Pending"
-                            ? "bg-orange-100 text-orange-800"
-                            : "bg-green-100 text-green-800"
-                            }`}
+                          className={`px-3 py-1 rounded-full text-sm font-medium text-center ${
+                            booking.status === "Pending"
+                              ? "bg-orange-100 text-orange-800"
+                              : "bg-green-100 text-green-800"
+                          }`}
                         >
                           {booking.status}
                         </span>

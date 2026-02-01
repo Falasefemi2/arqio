@@ -31,7 +31,6 @@ export function BookingsContent() {
   // Only fetch booking details when we have a valid ID
   const { data: selectedBookingResponse } = useGetBookingById(
     selectedBookingId || 0,
-    selectedBookingId !== null, // Only enable query when ID is set
   );
 
   const bookings = response?.data || [];

@@ -1,4 +1,6 @@
 import { AdminDashboard } from "@/components/admin-dashboard";
+import { DashboardSkeleton } from "@/components/dashboard-skeleton";
+import { Suspense } from "react";
 
 export const metadata = {
   title: "Analytics Dashboard | Arqio Admin",
@@ -6,5 +8,9 @@ export const metadata = {
 };
 
 export default function DashboardPage() {
-  return <AdminDashboard />;
+  return (
+    <Suspense fallback={<DashboardSkeleton />}>
+      <AdminDashboard />
+    </Suspense>
+  );
 }

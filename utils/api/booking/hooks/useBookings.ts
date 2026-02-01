@@ -23,10 +23,12 @@ export const useGetAllBookings = (params?: GetBookingParams) => {
   });
 };
 
-export const useGetBookingById = (id: number) => {
+export const useGetBookingById = (id: number, options?: object) => {
   return useQuery({
     queryKey: bookingKeys.detail(id),
     queryFn: () => bookingAPI.getBookingById(id),
+    enabled: id !== 0,
+    ...options,
   });
 };
 

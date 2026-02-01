@@ -1,3 +1,9 @@
+export interface Reply {
+  message: string;
+  scheduledDate: string;
+  scheduledTime: string;
+}
+
 export interface Booking {
   id: number;
   createdDate: string;
@@ -12,6 +18,7 @@ export interface Booking {
   companyName: string;
   message: string;
   status: string;
+  reply?: Reply; // Add this - optional because not all bookings have replies
 }
 
 export interface GetBookingResponse {
@@ -54,4 +61,12 @@ export interface GetBookingParams {
   PageSize?: number;
 }
 
-export type GetAllBookingResponse = Booking[];
+export interface GetAllBookingResponse {
+  data: Booking[];
+  successMessage?: string;
+  totalCount: number;
+  pageNumber?: number;
+  pageSize?: number;
+  isSuccessful: boolean;
+  error?: null | { responseDescription: string; data: string };
+}

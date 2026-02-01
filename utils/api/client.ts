@@ -50,4 +50,4 @@ export const getApiClient = (): AxiosInstance => {
   return apiClient;
 };
 
-export default apiClient;
+// export default apiClient;

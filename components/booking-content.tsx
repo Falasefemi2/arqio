@@ -11,6 +11,7 @@ import {
   useGetAllBookings,
   useGetBookingById,
 } from "@/utils/api/booking/hooks/useBookings";
+import { GetAllBookingResponse } from "@/utils/api/booking/type";
 
 export function BookingsContent() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -22,19 +23,23 @@ export function BookingsContent() {
   );
 
   // Fetch all bookings with status filter
-  const { data: response = {}, isLoading } = useGetAllBookings({
-    PageNumber: 1,
-    PageSize: 10,
-    Status: filterStatus === "All" ? undefined : filterStatus,
-  });
+  const { data: response = {} as GetAllBookingResponse, isLoading } =
+    useGetAllBookings({
+      PageNumber: 1,
+      PageSize: 10,
+      Status: filterStatus === "All" ? undefined : filterStatus,
+    });
 
   // Only fetch booking details when we have a valid ID
   const { data: selectedBookingResponse } = useGetBookingById(
     selectedBookingId || 0,
   );
 
-  const bookings = response?.data || [];
-  const selectedBookingData = selectedBookingResponse?.data;
+  const bookings = useMemo(() => {
+    return response?.data || [];
+  }, [response?.data]); // Only the data changes, not the whole response
+
+  const selectedBookingData = selectedBookingResponse;
 
   // Filter bookings locally for search
   const filteredBookings = useMemo(() => {

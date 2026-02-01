@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 import { BookingsContent } from "../../components/booking-content";
+import { BookingsSkeleton } from "@/components/bookings-skeleton";
 
 export const metadata = {
   title: "Manage Bookings | Arqio Admin",
@@ -8,7 +9,7 @@ export const metadata = {
 
 export default function BookingsPage() {
   return (
-    <Suspense fallback={null}>
+    <Suspense fallback={<BookingsSkeleton />}>
       <BookingsContent />
     </Suspense>
   );

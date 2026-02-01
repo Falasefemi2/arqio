@@ -1,4 +1,5 @@
 import { ServicesContent } from "@/components/service-content";
+import { ServicesSkeleton } from "@/components/service-skeleton";
 import { Suspense } from "react";
 
 export const metadata = {
@@ -8,11 +9,7 @@ export const metadata = {
 
 export default function ServicesPage() {
   return (
-    <Suspense
-      fallback={
-        <div className="p-6 text-center text-gray-500">Loading services...</div>
-      }
-    >
+    <Suspense fallback={<ServicesSkeleton />}>
       <ServicesContent />
     </Suspense>
   );

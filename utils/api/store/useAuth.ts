@@ -135,7 +135,7 @@ export const useAuth = () => {
 
   const logout = useCallback(() => {
     authStore.logout();
-    initializeApiClient(null);
+    initializeApiClient();
   }, [authStore]);
 
   return {
